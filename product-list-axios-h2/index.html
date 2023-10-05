@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="price-select">
+      <label for="priceRange">Select Price Range:</label>
+        <select id="priceRange">
+          <option value="All">All</option>
+          <option value="24.99">0-24.99</option>
+          <option value="49.99">25-49.99</option>
+          <option value="74.99">50-74.99</option>
+          <option value="99.99">75-99.99</option>
+          <option value="124.99">100-124.99</option>
+          <option value="149.99">125-149.99</option>
+          <option value="174.99">150-174.99</option>
+          <option value="199.99">175-199.99</option>
+          <option value="224.99">200-224.99</option>
+          <option value="249.99">225-249.99</option>
+        </select>
+      </div>
+    
+
+    <table id="viewHere">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Unit Price</th>
+            <th>Stock</th>
+            <th>Delete</th>
+        </tr>
+    </table>
+    
+  </div>
+</body>
+<script>
+
+    
+    let mainContainer = document.getElementById("viewHere");
+    let selectedPrice = document.getElementById("priceRange"); 
+    
+
+    const API_URL = 'https://northwind.vercel.app/api/products';
+    
+    // get data from endpoint and send data to function a. catch and log if there is an error.
+    axios.get(API_URL).then(res => a(res.data)).catch(err => console.warn(err));
+    
+    // if selected price is All, map all products list, otherwise(else) filter the list by chosen price range, then map the filtered list.
+   function a(data) { 
+
+    if(selectedPrice.value === "All") {
+      
+      data.map(x => {
+        var tr = document.createElement("tr");
+        tr.setAttribute("id",x.id);
+        tr.innerHTML = `
+                        <td>${x.id}</td>
+                        <td>${x.name}</td>
+                        <td>${x.unitPrice}</td>
+                        <td>${x.unitsInStock}</td>
+                        <td><button onclick="deleteItem(${x.id})">Delete</button></td>
+                        
+                        `
+        mainContainer.appendChild(tr);    
+  }
+     )}
+
+  else  {
+      let filtered = data.filter(x => x.unitPrice >= (selectedPrice.value-24.99) && x.unitPrice <= selectedPrice.value);
+        
+      filtered.map(x => {
+        var tr = document.createElement("tr");
+        tr.setAttribute("id",x.id);
+        tr.innerHTML = `
+                        <td>${x.id}</td>
+                        <td>${x.name}</td>
+                        <td>${x.unitPrice}</td>
+                        <td>${x.unitsInStock}</td>
+                        <td><button onclick="deleteItem(${x.id})">Delete</button></td>
+                        
+                        `
+    mainContainer.appendChild(tr);
+
+    
+  }
+     )}
+     
+  };
+
+
+ 
+    // delete item from endpoint and table after user confirmation
+     function deleteItem(data) { 
+       confirm("Think twice, act wise.");
+       axios.delete(`${API_URL}/${data}`);
+       document.getElementById(data).remove();
+       
+      }
+
+      // reload page after every price range change
+      selectedPrice.addEventListener("change",() => {
+       location.reload();
+      });
+
+     
+
+   
+
+
+</script>
+</html>

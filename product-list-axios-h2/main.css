@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  
+}
+
+.price-select {
+    margin: 2rem 0rem 1rem 0rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 12%;
+    
+}
+
+label {
+    margin-bottom: 1rem;
+    text-decoration: underline;
+}
+
+select  {
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+    width: 120px;
+}
+
+table { 
+    border-collapse: collapse;
+    width: 40%;
+    margin: 2rem 0 1rem 1rem;
+}
+
+table td, th {
+    border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+    background-color: #e1d9d9;;
+}
+
+table tr:hover {
+    background-color: #817373;
+}
+
+table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #ef6c6c;
+  color: white;
+}
